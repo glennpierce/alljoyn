@@ -105,7 +105,7 @@ if __name__ == "__main__":
     print "AllJoyn Library version:", alljoyn.Version
     print "AllJoyn Library build info:", alljoyn.BuildInfo
 
-    alljoyn.RouterInit()
+    #alljoyn.RouterInit()
 
     signal.signal(signal.SIGINT, signal_handler)
 
@@ -139,5 +139,5 @@ if __name__ == "__main__":
     g_bus.Stop()
     g_bus.Join()
 
-    alljoyn.RouterShutdown()
+    #alljoyn.RouterShutdown()
     time.sleep(2)

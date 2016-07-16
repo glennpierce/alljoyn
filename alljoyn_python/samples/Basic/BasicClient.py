@@ -4,6 +4,9 @@ from AllJoynPy import AllJoyn, AboutListener, MsgArg, AboutData, \
     QStatusException, AboutObjectDescription, Session, \
     TransportMask, SessionListener, AboutProxy, ProxyBusObject, \
     Message, BusListener, BusAttachment
+
+#from AllJoynPy.Router import RouterInit, RouterShutdown
+
 import signal
 import time
 import sys
@@ -36,7 +39,7 @@ def signal_handler(signal, frame):
 if __name__ == "__main__":
     alljoyn = AllJoyn()
 
-    alljoyn.RouterInit()
+    #RouterInit()
 
     signal.signal(signal.SIGINT, signal_handler)
 
@@ -65,4 +68,4 @@ if __name__ == "__main__":
         time.sleep(0.5)
         t += 0.5
 
-    alljoyn.RouterShutdown()
+    #RouterShutdown()

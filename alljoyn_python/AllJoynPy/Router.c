@@ -26,6 +26,6 @@ static PyMethodDef AlljoynRouterMethods[] = {
 
 DL_EXPORT(void) initAllJoynPythonRouter(void)
 {
-  Py_InitModule("AllJoynPythonRouter", AlljoynRouterMethods);
+  Py_InitModule("Router", AlljoynRouterMethods);
 }
 
