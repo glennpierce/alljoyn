@@ -52,6 +52,9 @@ if 'java' in bindings:
 if 'js' in bindings:
     env.SConscript(['alljoyn_js/SConscript'])
 
+if 'python' in bindings:
+    env.SConscript(['alljoyn_python/SConscript'])
+
 # Always build AboutService and ConfigService.
 env.SConscript(['services/about/SConscript'])
 env.SConscript(['services/config/SConscript'])
