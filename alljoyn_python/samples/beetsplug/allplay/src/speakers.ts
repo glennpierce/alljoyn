@@ -18,15 +18,13 @@ export class Speakers {
   }
 
   speakerSelected(event: any, speaker: Speaker) {
-    //speaker.selected = true;
-    console.log('here');
-    //this.router.navigateToRoute('track-edit', { id: track.id });
-    //event.preventDefault();
+    speaker.selected = true;
+    this.allplay.selectSpeakers();
     return true;
   }
 
   volumeChanged(event: any, speaker: Speaker) {
-    console.log(speaker.volume);
+    this.allplay.adjustVolume(speaker);
     alert(speaker.volume);
   }
 }

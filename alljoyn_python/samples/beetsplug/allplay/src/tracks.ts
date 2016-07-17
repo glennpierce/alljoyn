@@ -28,4 +28,9 @@ export class Tracks {
     this.router.navigateToRoute('track-edit', { id: track.id });
     event.preventDefault();
   }
+
+  play(event: any, track: ITrack) {
+    this.allplay.playTrack(track);
+  	return true;
+  }
 }

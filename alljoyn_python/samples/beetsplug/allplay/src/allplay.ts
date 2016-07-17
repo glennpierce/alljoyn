@@ -63,7 +63,7 @@ export class AllPlay {
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl('http://0.0.0.0:8337/');
+        .withBaseUrl('http://192.168.1.6:8337/');
     });
   }
 
@@ -156,11 +156,11 @@ export class AllPlay {
     });
   }
   
-  async adjustVolume(track : ITrack, volume : number): Promise<void> {
+  async adjustVolume(speaker: Speaker): Promise<void> {
     // ensure fetch is polyfilled before we create the http client
     await fetch;
 
-    let parameters = { 'device_id' : track.id,  'volume': volume};
+    let parameters = { 'device_id' : speaker.id,  'volume': speaker.volume};
     this.http.fetch('adjust_volume', {
         method: 'post',
         body: JSON.stringify(parameters)
@@ -192,4 +192,26 @@ export class AllPlay {
       return this.speakers;
   }
 
+  async selectSpeakers() {
+
+      let speakerIds = Array<string>();
+
+      for (let i in this.speakers) {
+        let s = this.speakers[i];
+        if(s.selected) {
+          speakerIds.push(s.id);
+        }
+      }
+
+      let parameters = {'selected_devices': speakerIds};
+
+      this.http.fetch('create_zone', {
+        method: 'post',
+        body: JSON.stringify(parameters)
+      });
+
+      //this.queue = jsonToMap(localStorage.getItem("queue"));
+
+      //$cookies.putObject('selected_devices', $scope.selected_devices);
+  }
 }

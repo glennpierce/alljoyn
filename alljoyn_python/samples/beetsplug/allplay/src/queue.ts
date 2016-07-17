@@ -30,7 +30,7 @@ export class Queue {
   }
 
   play(event: any, track: ITrack) {
-    alert('play');
+    this.allplay.playTrack(track);
   	return true;
   }
 

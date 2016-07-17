@@ -24,6 +24,7 @@ from beets import ui
 from beets import util
 import beets.library
 import flask
+import logging
 from flask import g, jsonify, request
 from werkzeug.routing import BaseConverter, PathConverter
 import os
@@ -34,7 +35,6 @@ allplayerController = AllPlayController()
 
 app = flask.Flask(__name__)
 
-
 @app.before_request
 def before_request():
     g.lib = app.config['lib']
@@ -44,6 +44,7 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Origin', '*')
   response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+  logging.info("after_request")
   return response
 
 @app.route('/get_devices', methods=['GET'])
