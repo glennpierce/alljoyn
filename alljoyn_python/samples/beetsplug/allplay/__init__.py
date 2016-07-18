@@ -54,7 +54,7 @@ def get_devices():
 
 @app.route('/create_zone', methods= ['POST'])
 def create_zone():
-    data = request.get_json()
+    data = json.loads(request.data)
     devices = data.get('selected_devices', [])
     allplayerController.CreateZone(devices)
     return jsonify({'return': 'ok'})
@@ -62,7 +62,7 @@ def create_zone():
 
 @app.route('/play', methods= ['POST'])
 def play():
-    data = request.get_json()
+    data = json.loads(request.data)
     allplayerController.SetQueue(data['queue'])
     player = allplayerController.GetPlayer()
     state, position = player.GetPlayingState()
@@ -75,7 +75,7 @@ def play():
 
 @app.route('/playtrack', methods= ['POST'])
 def playtrack():
-    data = request.get_json()
+    data = json.loads(request.data)
     player = allplayerController.GetPlayer()
     state, position = player.GetPlayingState()
     if state == "paused":
@@ -87,7 +87,7 @@ def playtrack():
 
 @app.route('/adjust_volume', methods=['POST'])
 def adjust_volume():
-    data = request.get_json()
+    data = json.loads(request.data)
     device_id = data.get('device_id', None)
     volume = data.get('volume')
     allplayerController.SetVolume(device_id, volume)
@@ -114,7 +114,7 @@ def pause():
 
 @app.route('/update', methods= ['POST'])
 def update():
-    data = request.get_json()
+    data = json.loads(request.data)
     item = data['item']
     db_item = g.lib.get_item(item['id'])
     db_item.update(item)
