@@ -653,7 +653,7 @@ class AllPlayController(object):
 
         item = self.queue.pop(0)
         print "item popped from queue", item
-        url = AllPlayController.item_url(item['id'])
+        url = AllPlayController.item_url(item)
         self.player.PlayUrl(url)
 
     def PlayTrack(self, item_id):
