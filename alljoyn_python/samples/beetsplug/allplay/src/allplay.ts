@@ -5,12 +5,15 @@ import {HttpClient} from 'aurelia-fetch-client';
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
-function mapToJson(map) {
-    return JSON.stringify([...map]);
+function mapToJson(map) : string {
+    return JSON.stringify(Array.from(map.entries()));
+    //return "";
 }
 
-function jsonToMap(jsonStr) {
-    return new Map<number, ITrack>(JSON.parse(jsonStr));
+function jsonToMap(jsonStr : string) {
+    let json = JSON.parse(jsonStr);
+    return new Map<number, ITrack>(json);
+    //return new Map();
 }
 
 export interface ITrack {
@@ -140,16 +143,25 @@ export class AllPlay {
     // ensure fetch is polyfilled before we create the http client
     await fetch;
 
+    let entries = Array.from(this.queue.keys());
+    let parameters = { 'queue': entries };
     this.http.fetch('play', {
-        method: 'get'
+        method: 'post',
+        body: JSON.stringify(parameters)
     });
+  }
+
+  async reset_queue() {
+    // ensure fetch is polyfilled before we create the http client
+    this.queue = new Map<number, ITrack>();
+    localStorage.setItem("queue", "[]");
   }
 
   async playTrack(track : ITrack): Promise<void> {
     // ensure fetch is polyfilled before we create the http client
     await fetch;
 
-    let parameters = { 'track_id': track };
+    let parameters = { 'track_id': track.id };
     this.http.fetch('playtrack', {
         method: 'post',
         body: JSON.stringify(parameters)
@@ -177,8 +189,9 @@ export class AllPlay {
  
     for (let i in devices) {
         let v = devices[i];
-        this.speakers.push(new Speaker(this.http, v.id, v.state,
-                                      v.name, v.volume));
+        let speaker : Speaker = new Speaker(this.http, v.id, v.state,
+                                      v.name, v.volume);
+        this.speakers.push(speaker);
     }
 
     console.log(this);
@@ -202,6 +215,8 @@ export class AllPlay {
           speakerIds.push(s.id);
         }
       }
+
+      localStorage.setItem("speakers", JSON.stringify(speakerIds));
 
       let parameters = {'selected_devices': speakerIds};
 

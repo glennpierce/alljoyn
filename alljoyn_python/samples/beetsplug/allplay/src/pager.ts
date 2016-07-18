@@ -9,12 +9,19 @@ export class Pager {
   @bindable({defaultBindingMode: bindingMode.twoWay})
   currentPage : number = 0;
   @bindable items;
-  @bindable pageSize : number = 10;
+  @bindable pageSize : number = 50;
+  @bindable showPages = false;
+  @bindable showFirst = false;
 
   goToPage(page) {
     if (page > 0) {
       this.currentPage = page;
     }
+  }
+
+  @computedFrom('items', 'pageSize')
+  get numberOfVisiblePages() {
+      return this.items.length / this.pageSize;
   }
 
   @computedFrom('currentPage')
