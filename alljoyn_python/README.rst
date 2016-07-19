@@ -101,6 +101,20 @@ Beets plugin ::
 
     This will start a webserver you can access on port 8337
 
+    This webservice only provides a restfull api for the alljoyn code.
+    I also developed a frontend using Aurelia  
+ 
+    cd alljoyn/alljoyn_python/samples/beetsplug/allplay
+
+    npm install;
+
+    npm install @easy-webpack/core @easy-webpack/config-env-production @easy-webpack/config-aurelia @easy-webpack/config-typescript @easy-webpack/config-html @easy-webpack/config-css @easy-webpack/config-fonts-and-images @easy-webpack/config-global-bluebird @easy-webpack/config-global-jquery @easy-webpack/config-global-regenerator @easy-webpack/config-generate-index-html @easy-webpack/config-uglify -g;
+
+    webpack;
+
+    You must serve the directory alljoyn/alljoyn_python/samples/beetsplug/allplay/dist that is created using any webserver.
+
+
 
 Todo
 ============
