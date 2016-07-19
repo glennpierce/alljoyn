@@ -9,7 +9,7 @@ export class Pager {
   @bindable({defaultBindingMode: bindingMode.twoWay})
   currentPage : number = 0;
   @bindable items;
-  @bindable pageSize : number = 50;
+  @bindable pageSize : number;
   @bindable showPages = false;
   @bindable showFirst = false;
   @bindable searchText = '';
@@ -26,27 +26,24 @@ export class Pager {
   }
 
   private match(search : string, item: any) : boolean {
-    let lcase_search = this.searchText.toLowerCase();
-    if((item['title'].toLowerCase().indexOf(lcase_search) > -1) ||
-       (item['artist'].toLowerCase().indexOf(lcase_search) > -1) ||
-       (item['album'].toLowerCase().indexOf(lcase_search) > -1)) {
-         return true;
-    }
-    return false;
+        let lcase_search = search.toLowerCase();
+        if((item['title'].toLowerCase().indexOf(lcase_search) > -1) ||
+        (item['artist'].toLowerCase().indexOf(lcase_search) > -1) ||
+        (item['album'].toLowerCase().indexOf(lcase_search) > -1)) {
+            return true;
+        }
+        return false;
   }
 
-  onSearchTextChanged() {
-    if(this.searchText.length > 0) {
-        this.items.filter((item) => this.match(item, this.searchText));
-    }
-  }
-
-  @computedFrom('currentPage', 'search')
+  @computedFrom('currentPage', 'searchText')
   get selectedItems() {
-      
       let start : number = this.pageSize * this.currentPage;
       let end = start + +this.pageSize;
       end = Math.min(this.items.length - this.pageSize, end);
-      return this.items.slice(start, end);
+      if (this.searchText === undefined || this.searchText === "") {
+            return this.items.slice(start, end);
+      }
+      let filteredItems = this.items.filter((item) => this.match(this.searchText, item)); 
+      return filteredItems.slice(start, end); 
   }
 }

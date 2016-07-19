@@ -1,6 +1,7 @@
 <template>
+  <require from="materialize-css/bin/materialize.css"></require>
 
-  <input change.deleagte="onSearchTextChanged" type="text" />
+  <md-input md-label="search tracks" md-value.bind="searchText"></md-input><br />
   <br><br>
     
   <div repeat.for="item of selectedItems" part="item-template">

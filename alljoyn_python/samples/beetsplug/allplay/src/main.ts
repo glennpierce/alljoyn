@@ -11,6 +11,7 @@ bootstrap(async (aurelia: Aurelia) => {
     //.plugin('aurelia-materialize-bridge', bridge => bridge.useAll())
 
     .plugin('aurelia-materialize-bridge', bridge => { bridge.useCheckbox().
+                                                             useInput().
                                                              useButton().
                                                              useRange(); })
 
