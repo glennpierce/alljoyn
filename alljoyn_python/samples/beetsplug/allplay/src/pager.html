@@ -1,5 +1,8 @@
 <template>
 
+  <input change.deleagte="onSearchTextChanged" type="text" />
+  <br><br>
+    
   <div repeat.for="item of selectedItems" part="item-template">
     ${item}
   </div>

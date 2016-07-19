@@ -9,25 +9,33 @@ export class Speakers {
   heading: string = 'Speakers';
   speakers: Array<Speaker> = [];
   savedSpeakers: Array<string> = [];
+
   constructor(private allplay: AllPlay, private router: Router) {
-      let speakersJson : string = localStorage.getItem("speakers");
+    this.setup();
+  }
+
+  async setup() {
+    let speakersJson : string = localStorage.getItem("speakers");
       if(speakersJson !== null) {
         this.savedSpeakers = JSON.parse(speakersJson);
       }
+
+      this.speakers = await this.allplay.getSpeakers();
+      console.log(this.speakers);
+
+      for (let i in this.speakers) {
+          let s = this.speakers[i];
+          if (this.savedSpeakers.indexOf(s.id) > -1) {
+            s.selected = true;
+          }
+      }
+
+      this.allplay.selectSpeakers();
   }
 
   async activate(): Promise<void> {
-    this.speakers = await this.allplay.getSpeakers();
-    console.log(this.speakers);
-
-    for (let i in this.speakers) {
-        let s = this.speakers[i];
-        if (this.savedSpeakers.indexOf(s.id) > -1) {
-          s.selected = true;
-        }
-    }
-
-    this.allplay.selectSpeakers();
+    //this.speakers = await this.allplay.getSpeakers();
+    //console.log(this.speakers);
   }
 
   speakerSelected(event: any, speaker: Speaker) {
