@@ -19,7 +19,7 @@
       <a click.delegate="goToPage(1)">1...</a>
     </li>
 
-    <li show.bind="showPages" repeat.for="index of numberOfVisiblePages"
+    <li show.bind="showPages" repeat.for="index of numberOfPages"
           class.bind="currentPage === (index + currentBlockStartPageIndex) ? 'active': ''">
         <a style="cursor:default;" click.delegate="goToPage(index + currentBlockStartPageIndex)">
           ${index + currentBlockStartPageIndex}
@@ -31,7 +31,7 @@
       <a click.delegate="goToPage(pages)">...${pages}</a>
     </li>
 
-    <li class.bind="currentPage < pages ? '': 'disabled'">
+    <li class.bind="currentPage < numberOfPages - 1 ? '': 'disabled'">
       <a style="cursor:default;" click.delegate="goToPage(currentPage + 1)">
         <span class="glyphicon glyphicon-chevron-right"></span>
       </a>

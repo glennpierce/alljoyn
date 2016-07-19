@@ -13,16 +13,12 @@ export class Pager {
   @bindable showPages = false;
   @bindable showFirst = false;
   @bindable searchText = '';
+  @bindable numberOfPages : number;
 
   goToPage(page) {
-    if (page > 0) {
+    if (page >= 0) {
       this.currentPage = page;
     }
-  }
-
-  @computedFrom('items', 'pageSize')
-  get numberOfVisiblePages() {
-      return this.items.length / this.pageSize;
   }
 
   private match(search : string, item: any) : boolean {
@@ -40,10 +36,15 @@ export class Pager {
       let start : number = this.pageSize * this.currentPage;
       let end = start + +this.pageSize;
       end = Math.min(this.items.length - this.pageSize, end);
-      if (this.searchText === undefined || this.searchText === "") {
-            return this.items.slice(start, end);
+      let filteredItems = this.items.slice();
+
+      if (this.searchText !== undefined && this.searchText !== "")  {
+        filteredItems = this.items.filter((item) => this.match(this.searchText, item)); 
       }
-      let filteredItems = this.items.filter((item) => this.match(this.searchText, item)); 
-      return filteredItems.slice(start, end); 
+
+      filteredItems = filteredItems.slice(start, end); 
+      this.numberOfPages = filteredItems.length / this.pageSize;
+
+      return filteredItems;
   }
 }
