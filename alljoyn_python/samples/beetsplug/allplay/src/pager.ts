@@ -1,3 +1,4 @@
+/*
 import { bindingMode } from 'aurelia-binding';
 import { bindable } from 'aurelia-templating';
 import { LogManager, View, inject, computedFrom } from 'aurelia-framework';
@@ -48,3 +49,4 @@ export class Pager {
       return filteredItems;
   }
 }
+*/

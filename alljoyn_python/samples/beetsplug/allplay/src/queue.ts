@@ -48,7 +48,6 @@ export class Queue {
   	return true;
   }
 
-
   playTrack(event: any, track: ITrack) {
     this.allplay.playTrack(track);
   	return true;
