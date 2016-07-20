@@ -3,7 +3,6 @@ import {HttpClient} from 'aurelia-fetch-client';
 import {Router} from 'aurelia-router';
 import {AllPlay, ITrack} from './allplay';
 
-
 @inject(AllPlay, Router)
 export class Tracks {
   heading : string = 'Tracks';
@@ -20,7 +19,8 @@ export class Tracks {
 
   async activate(): Promise<void> {
     this.tracks = await this.allplay.getTracks();
-    this.numberOfPages = this.tracks.length / this.tracksPerPage;
+    this.numberOfPages = Math.ceil(this.tracks.length / this.tracksPerPage);
+    this.setPage(1);
   }
 
   private match(search : string, item: any) : boolean {
@@ -33,17 +33,26 @@ export class Tracks {
         return false;
   }
 
-  onPageChanged(e) {
-    let pageNumber = e.detail;
+  setPage(pageNumber : number) {
     let filteredItems = this.tracks.slice();
 
-    if (this.searchText !== undefined && this.searchText !== "")  {
+    if (this.searchText !== undefined && this.searchText.length > 0)  {
         filteredItems = this.tracks.filter((item) => this.match(this.searchText, item)); 
     }
+
+    this.numberOfPages = Math.ceil(filteredItems.length / this.tracksPerPage);
 
     let start : number = this.tracksPerPage * (pageNumber - 1);
     filteredItems = filteredItems.slice(start, start + this.tracksPerPage); 
     this.pageTracks = filteredItems;
+  }
+
+  onSearchText(event : any) {
+      this.setPage(1);
+  }
+  
+  onPageChanged(e) {
+    this.setPage(e.detail);
   }
 
   addToQueue(event: any, track: ITrack) {

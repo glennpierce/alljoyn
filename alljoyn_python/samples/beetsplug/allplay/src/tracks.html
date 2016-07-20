@@ -1,52 +1,31 @@
 <template>
+  
+  <require from="materialize-css/bin/materialize.css"></require>
+  <require from="./tracks.css"></require>
+
   <section>
     <h2>${heading}</h2>
 
-    <require from="materialize-css/bin/materialize.css"></require>
-
-    <!-- <require from="./pager"></require> -->
-
-    <md-input md-label="search tracks" md-value.bind="searchText"></md-input><br />
+    <md-input md-label="search tracks" md-value.bind="searchText" change.delegate="onSearchText($event)"></md-input>
     <br><br>
 
-    <div class="row au-stagger" repeat.for="item of pageTracks">
+    <div class="row au-stagger" repeat.for="track of pageTracks">
           <div class="card-container">
-            <div class="list-group-item" click.delegate="playTrack($event, track)>
+            <div class="list-group-item" click.delegate="playTrack($event, track)">
               <div>
-                <h4 class="list-group-item-heading">${item.title}</h4>
-                  <p class="list-group-item-text">Album ${item.album}</p>
-                  <p class="list-group-item-text">Artist ${item.artist}</p>
+                <h4 class="list-group-item-heading">${track.title}</h4>
+                  <p class="list-group-item-text">Album ${track.album}</p>
+                  <p class="list-group-item-text">Artist ${track.artist}</p>
               </div>
-              <a href click.delegate="gotoTrackEdit($event, item)">Edit Metadata</a>
+              <a href click.delegate="gotoTrackEdit($event, track)">Edit Metadata</a>
               <br>
-              <a href click.delegate="addToQueue($event, item)">Add to queue</a>
+              <a href click.delegate="addToQueue($event, track)">Add to queue</a>
             </div>
           </div>
     </div>
 
     <md-pagination md-on-page-changed.delegate="onPageChanged($event)" md-pages.bind="numberOfPages" 
         md-active-page.bind="activePage"></md-pagination>
-
-<!--
-    <pager page-size=25 items.bind="tracks">
-      <template replace-part="item-template">
-        <div class="row au-stagger">
-          <div class="card-container">
-            <div class="list-group-item">
-              <div>
-                <h4 class="list-group-item-heading">${item.title}</h4>
-                  <p class="list-group-item-text">Album ${item.album}</p>
-                  <p class="list-group-item-text">Artist ${item.artist}</p>
-              </div>
-              <a href click.delegate="gotoTrackEdit($event, item)">Edit Metadata</a>
-              <br>
-              <a href click.delegate="addToQueue($event, item)">Add to queue</a>
-            </div>
-          </div>
-        </div>
-      </template>
-    </pager>
-  -->
    
   </section>
 </template>
