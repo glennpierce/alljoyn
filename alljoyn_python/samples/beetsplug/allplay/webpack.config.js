@@ -141,6 +141,7 @@ switch (ENV) {
         ({ filename: 'styles.css', allChunks: !!ELECTRON, sourceMap: false }),
 
       require('@easy-webpack/config-fonts-and-images')(),
+      require('@easy-webpack/config-json')(),
       require('@easy-webpack/config-global-bluebird')(),
       require('@easy-webpack/config-global-jquery')(),
       require('@easy-webpack/config-global-regenerator')(),

@@ -1,7 +1,6 @@
 import {inject, Lazy, autoinject, singleton} from 'aurelia-framework';
 import {HttpClient} from 'aurelia-fetch-client';
 
-
 // polyfill fetch client conditionally
 const fetch = !self.fetch ? System.import('isomorphic-fetch') : Promise.resolve(self.fetch);
 
@@ -53,6 +52,7 @@ export type QueueContainer = Map<number, ITrack>;
 
 @inject(Lazy.of(HttpClient))
 export class AllPlay {
+  debug : boolean = true;
   tracks: Array<ITrack> = [];
   speakers: Array<Speaker> = [];
   queue: QueueContainer = new Map<number, ITrack>();
@@ -63,14 +63,32 @@ export class AllPlay {
 
     this.http = this.getHttpClient();
 
+    let self = this;
+
     this.http.configure(config => {
       config
         .useStandardConfiguration()
-        .withBaseUrl('http://192.168.1.6:8337/');
+        .withBaseUrl('http://192.168.1.6:8337/')
+        .withInterceptor({
+            request(request) {
+                if(self.debug) {
+                  //console.log(`Requesting ${request.method} ${request.url}`);
+                  let jsonTracks = require("./json/tracks.json");
+                  return new Response(JSON.stringify(jsonTracks));   // Fake Data
+                }
+
+                return request; // you c = an return a modified Request, or you can short-circuit the request by returning a Response
+            },
+            response(response) {
+
+                return response;
+            }
+        })
     });
   }
 
   async fetchTracks(): Promise<void> {
+
     // ensure fetch is polyfilled before we create the http client
     await fetch;
 
