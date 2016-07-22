@@ -52,7 +52,7 @@ export type QueueContainer = Map<number, ITrack>;
 
 @inject(Lazy.of(HttpClient))
 export class AllPlay {
-  debug : boolean = true;
+  debug : boolean = false;
   tracks: Array<ITrack> = [];
   speakers: Array<Speaker> = [];
   queue: QueueContainer = new Map<number, ITrack>();
