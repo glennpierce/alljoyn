@@ -153,6 +153,10 @@ def showqueue():
 @app.route('/trackfile/<int:item_id>')
 def trackfile(item_id):
     item = g.lib.get_item(item_id)
+    if not item:
+        logging.error("track for item_id %s not found", item_id)
+        flask.abort(500)
+
     response = flask.send_file(item.path, as_attachment=False)
     response.headers['Content-Length'] = os.path.getsize(item.path)
     return response
